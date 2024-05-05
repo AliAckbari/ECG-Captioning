@@ -1,2 +1,2 @@
 # mnist-LLM
-A little project, aimed to use LLM for image classification
+A little project, aimed to use LLMs for image classification
