@@ -30,10 +30,40 @@ def prepare_test_train() -> tuple:
 
     return trainloader, testloader, device
 
-
-
+def model_init(image_size: int, patch_size: int, num_classes: int, 
+               dim: int, depth: int, heads: int,
+               mlp_dim: int, dropout: float, emb_dropout: float) -> vit_pytorch.ViT:
+    
+    v = ViT(
+    image_size = image_size,
+    patch_size = patch_size,
+    num_classes = num_classes,
+    dim = dim,
+    depth = depth,
+    heads = heads,
+    mlp_dim = mlp_dim,
+    dropout = dropout,
+    emb_dropout = emb_dropout
+)
+    
+    return v
+def train(model: torch.nn, trainloader: torch.utils.data.DataLoader, num_epochs: int = 10) -> None:
+    for epoch in range(num_epochs):
+        model.train()
+        running_loss = 0.0
+        for i, (inputs, labels) in enumerate(trainloader, 0):
+            inputs, labels = inputs.to(device), labels.to(device)
+            optimizer.zero_grad()
+            outputs = model(perturbed_images)
+            loss = criterion(outputs[1], labels)
+            loss.backward()
+            optimizer.step()
+            running_loss += loss.item()
+            if i % 128 == 127:    # Print every 100 mini-batches
+                print(f'Epoch {epoch + 1}, Mini-batch {i + 1}, Loss: {running_loss / 100:.4f}')
+                running_loss = 0.0
 
 if "name" == "__main__":
     
-
+    model = model_init()
 
